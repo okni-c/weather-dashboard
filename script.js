@@ -88,7 +88,7 @@ function getData(data) {
     while (i < data.list.length) {
         // use moment to format day text
 
-        var day = data.list[i].dt_txt;
+        var day = moment(data.list[i].dt_txt, 'YYYY-MM-DD HH:mm:ss').format('LLL');
         dayElementArr[i].innerText = day;
 
         var temp = data.list[i].main.temp;
@@ -192,22 +192,22 @@ function getUV (data) {
 
 };
 
-// function renderLastRegistered() {
-//     // Retrieve the previous cities
-//     var i = 0;
-//     while (i <= ) {
-//         //get from local storage
-//         var elementString = localStorage.getItem( + i);
-//         // console.log(arr[i]);
-//         elementArr[i].textContent = elementString;
-//         i++;
-//     }
+function renderLastRegistered() {
+    // Retrieve the previous cities
+    var i = 0;
+    while (i <= localStorage.length) {
+        //get from local storage
+        var elementString = localStorage.getItem(i);
+        // console.log(arr[i]);
+        elementArr[i].textContent = elementString;
+        i++;
+    }
 
-//     // If it is null, return early from this function
-//     if (elementString === null) {
-//         return;
-//     }
-// }
+    // If it is null, return early from this function
+    if (elementString === null) {
+        return;
+    }
+}
 
 // renderLastRegistered();
 
