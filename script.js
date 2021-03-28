@@ -1,4 +1,5 @@
 var api = 'http://api.openweathermap.org/data/2.5/forecast?q=';
+var apiUV = 'http://api.openweathermap.org/data/2.5/uvi?';
 var apiKey = '&appid=8943dc0c0eb19de1fe9d843a0ca2f4fe';
 var units = '&units=imperial&cnt=5';
 
@@ -48,8 +49,6 @@ function addToList(city) {
         return;
     }
 
-    // Remove 'active' class from element with it.
-
     // Create new anchor <a>
     var newAnchor = document.createElement('a');
     newAnchor.setAttribute('class', 'list-group-item list-group-item-action');
@@ -65,6 +64,8 @@ function addToList(city) {
     listArr.push(newAnchor);
 
     console.log(newAnchor.id);
+
+    localStorage.setItem(newAnchor.id, city);
 
     $(newAnchor).click(function () {
         // change city in url
@@ -86,6 +87,7 @@ function getData(data) {
 
     while (i < data.list.length) {
         // use moment to format day text
+
         var day = data.list[i].dt_txt;
         dayElementArr[i].innerText = day;
 
@@ -107,10 +109,126 @@ function getData(data) {
         if (condition === "Clouds") {
             imgArr[i].src = "assets/cloudy.png";
         };
-        // add snow img
+        if (condition === "Snow") {
+            imgArr[i].src = "assets/snow.png";
+        };
 
         console.log(day, temp, humidity, city, condition);
         i++;
     };
 
+    $('#city-jumbo').text(city);
+    $('#temp-jumbo').text(data.list[0].main.temp + " °F");
+    $('#humidity-jumbo').text("Humidity: " + data.list[0].main.humidity + "%");
+    $('#wind-jumbo').text("Wind Speed: " + data.list[0].wind.speed + " MPH");
+
+    var lat = data.city.coord.lat;
+    var lon = data.city.coord.lon;
+
+    var url2 = apiUV + "lat=" + lat + "&lon=" + lon + apiKey;
+
+    console.log(url2);
+
+    fetch(url2)
+            .then(response => response.json())
+            .then(data => getUV(data));
+
 };
+
+function getUV (data) {
+    var uv = data.value;
+    $('#uv-jumbo').text("UV Index: " + uv);
+    
+    if (uv <= 2) {
+        //color blue
+        $('#uv-jumbo').removeClass("bg-success");
+        $('#uv-jumbo').removeClass("bg-warning");
+        $('#uv-jumbo').removeClass("bg-danger");
+        $('#uv-jumbo').removeClass("bg-dark");
+        $('#uv-jumbo').removeClass("text-dark");
+        $('#uv-jumbo').addClass("text-white");
+        $('#uv-jumbo').addClass("bg-primary");
+    };
+    if (uv >= 2.00 && uv <= 5.00) {
+        //color green
+        $('#uv-jumbo').removeClass("bg-primary");
+        $('#uv-jumbo').removeClass("bg-warning");
+        $('#uv-jumbo').removeClass("bg-danger");
+        $('#uv-jumbo').removeClass("bg-dark");
+        $('#uv-jumbo').removeClass("text-dark");
+        $('#uv-jumbo').addClass("text-white");
+        $('#uv-jumbo').addClass("bg-success");
+    };
+    if (uv >= 5.00 && uv <= 7.00) {
+        //color yellow
+        $('#uv-jumbo').removeClass("bg-success");
+        $('#uv-jumbo').removeClass("bg-primary");
+        $('#uv-jumbo').removeClass("bg-danger");
+        $('#uv-jumbo').removeClass("bg-dark");
+        $('#uv-jumbo').removeClass("text-white");
+        $('#uv-jumbo').addClass("text-dark");
+        $('#uv-jumbo').addClass("bg-warning");
+    };
+    if (uv >= 7.00 && uv <= 10.00) {
+        //color red
+        $('#uv-jumbo').removeClass("bg-warning");
+        $('#uv-jumbo').removeClass("bg-success");
+        $('#uv-jumbo').removeClass("bg-primary");
+        $('#uv-jumbo').removeClass("bg-dark");
+        $('#uv-jumbo').removeClass("text-dark");
+        $('#uv-jumbo').addClass("text-white");
+        $('#uv-jumbo').addClass("bg-danger");
+    };
+    if (uv >= 10.00) {
+        //color black
+        $('#uv-jumbo').removeClass("bg-danger");
+        $('#uv-jumbo').removeClass("bg-warning");
+        $('#uv-jumbo').removeClass("bg-success");
+        $('#uv-jumbo').removeClass("bg-primary");
+        $('#uv-jumbo').removeClass("text-dark");
+        $('#uv-jumbo').addClass("text-white");
+        $('#uv-jumbo').addClass("bg-dark");
+    };
+
+};
+
+// function renderLastRegistered() {
+//     // Retrieve the previous cities
+//     var i = 0;
+//     while (i <= ) {
+//         //get from local storage
+//         var elementString = localStorage.getItem( + i);
+//         // console.log(arr[i]);
+//         elementArr[i].textContent = elementString;
+//         i++;
+//     }
+
+//     // If it is null, return early from this function
+//     if (elementString === null) {
+//         return;
+//     }
+// }
+
+// renderLastRegistered();
+
+// //when any save button is pressed
+// $(newAnchor).click(function () {
+//     var arr = [];
+//     //clear array
+//     arr.splice(0, arr.length)
+
+//     var i = 0;
+//     while (i <= 8) {
+//         //grab data from each event-box
+//         var elementString = $().val();
+//         //push to array
+//         arr.push(elementString);
+//         console.log(arr[i]);
+//         //save to local storage
+        
+//         i++;
+//     }
+//     //save it to localStorage
+//     renderLastRegistered();
+
+// });

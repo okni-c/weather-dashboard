@@ -28,15 +28,25 @@
     <div class="row">
         <!--cities tab-->
         <div class="col-4">
-
             <div class="list-group" id="list-tab" role="tablist">
             </div>
 
         </div>
         <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-content card-group" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                     <div class="row">
+
+                        <div class="jumbotron jumbotron-fluid">
+                            <div class="container">
+                              <h1 id="city-jumbo" class="display-4">City</h1>
+                              <p id="temp-jumbo" class="lead"></p>
+                              <p id="humidity-jumbo" class="lead"></p>
+                              <p id="wind-jumbo" class="lead"></p>
+                              <p id="uv-jumbo" class="lead"></p>
+                            </div>
+                          </div>
+
                         <!--card 1-->
                         <div class="card" style="width: 18rem;">
                             <img id="img-condition0" src="assets/sunny.png" class="card-img-top" alt="...">
