@@ -35,6 +35,7 @@ $('#submit').click(function () {
 function addToList(city) {
     var index = 0;
     var doesCityExistInArray = false;
+    var localCityArr = [];
 
     // Loop through the existing City list
     while (index < listArr.length) {
@@ -65,7 +66,9 @@ function addToList(city) {
 
     console.log(newAnchor.id);
 
-    localStorage.setItem(newAnchor.id, city);
+    localCityArr.push(city);
+
+    localStorage.setItem('localCityArr', JSON.stringify(localCityArr));
 
     $(newAnchor).click(function () {
         // change city in url
