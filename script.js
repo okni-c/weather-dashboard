@@ -130,8 +130,6 @@ function getData(data) {
 
     var url2 = apiUV + "lat=" + lat + "&lon=" + lon + apiKey;
 
-    console.log(url2);
-
     fetch(url2)
             .then(response => response.json())
             .then(data => getUV(data));
