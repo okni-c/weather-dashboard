@@ -1,5 +1,5 @@
-var api = 'http://api.openweathermap.org/data/2.5/forecast?q=';
-var apiUV = 'http://api.openweathermap.org/data/2.5/uvi?';
+var api = 'https://api.openweathermap.org/data/2.5/forecast?q=';
+var apiUV = 'https://api.openweathermap.org/data/2.5/uvi?';
 var apiKey = '&appid=8943dc0c0eb19de1fe9d843a0ca2f4fe';
 var units = '&units=imperial&cnt=5';
 
